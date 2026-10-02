@@ -1,0 +1,45 @@
+services:
+  db:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-series}
+      POSTGRES_USER: ${POSTGRES_USER:-series}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-series}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    networks: [internal]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      retries: 10
+
+  app:
+    image: series-randomizer:latest
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_DB: ${POSTGRES_DB:-series}
+      POSTGRES_USER: ${POSTGRES_USER:-series}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-series}
+    ports:
+      - "127.0.0.1:${APP_PORT:-8080}:8080"
+    networks:
+      internal:
+      proxy:
+        aliases: [ series-randomizer ]
+
+volumes:
+  pg-data:
+
+networks:
+  internal:
+  proxy:
+    name: ${PROXY_NETWORK:-series-proxy}
+    external: ${PROXY_EXTERNAL:-false}

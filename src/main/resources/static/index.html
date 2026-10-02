@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Series Randomizer</title>
+    <link rel="stylesheet" href="css/app.css">
+    <script type="module" src="js/app.js"></script>
+</head>
+<body>
+<main>
+    <h1>Что посмотреть</h1>
+    <div id="series"></div>
+    <div id="result">
+        <div id="episode">
+            <div id="info">
+                <div id="code"></div>
+                <div id="title"></div>
+                <div id="note"></div>
+            </div>
+            <button id="watched" hidden>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
+            </button>
+        </div>
+        <div id="pips"></div>
+        <button id="reset" class="link" hidden>Начать заново</button>
+    </div>
+    <button id="pick" disabled>Выбрать серию</button>
+</main>
+<img id="tie" class="prop" alt="" draggable="false" hidden>
+<button id="horn" class="prop" aria-label="Горн" hidden></button>
+</body>
+</html>
