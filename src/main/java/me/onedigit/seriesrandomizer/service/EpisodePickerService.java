@@ -51,7 +51,8 @@ public class EpisodePickerService {
         if (episodeRepository.existsBySeriesAndWatchedFalse(series))
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Сериал еще не просмотрен");
 
-        episodeRepository.findAllBySeries(series).forEach(e -> e.setWatched(false));
+        episodeRepository.resetEpisodesBySeries(series);
+
         return new Series(series.getCode(), series.getTitle());
     }
 
