@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface EpisodeRepository extends JpaRepository<EpisodeEntity, Long> {
     List<EpisodeEntity> findAllBySeriesAndWatchedFalse(SeriesEntity series);
@@ -19,4 +20,6 @@ public interface EpisodeRepository extends JpaRepository<EpisodeEntity, Long> {
     @Modifying(clearAutomatically = true)
     @Query("UPDATE EpisodeEntity episode SET episode.watched = false WHERE episode.series = :series")
     void resetEpisodesBySeries(@Param("series") SeriesEntity series);
+
+    Optional<EpisodeEntity> findBySeriesCodeAndSeasonAndNumber(String seriesCode, Integer season, Integer episode);
 }

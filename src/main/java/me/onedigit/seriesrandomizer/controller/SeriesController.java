@@ -16,7 +16,10 @@ public class SeriesController {
         this.seriesService = seriesService;
     }
 
-    @GetMapping("/series")
+    @GetMapping({
+            "/series",
+            "/s"
+    })
     public List<Series> getAll() {
         return seriesService.getAll();
     }

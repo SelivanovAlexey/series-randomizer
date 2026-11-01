@@ -63,4 +63,12 @@ public class EpisodePickerService {
         episode.setWatched(true);
         return new WatchedResult(episodeRepository.countBySeriesAndWatchedTrue(episode.getSeries()));
     }
+
+    @Transactional
+    public WatchedResult markWatched(String seriesCode, Integer season, Integer episode) {
+        EpisodeEntity e = episodeRepository.findBySeriesCodeAndSeasonAndNumber(seriesCode, season, episode)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Серия не найдена"));
+        e.setWatched(true);
+        return new WatchedResult(episodeRepository.countBySeriesAndWatchedTrue(e.getSeries()));
+    }
 }
